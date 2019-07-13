@@ -1,0 +1,91 @@
+// SampleAtlProject.idl : IDL source for SampleAtlProject
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (SampleAtlProject.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(555454FB-B2D8-42AC-9392-5A7EDCF76246),
+	pointer_default(unique)
+]
+interface IPreview : IUnknown
+{
+};
+
+[
+	object,
+	uuid(36949CA6-9158-43B6-8CA9-807ECDC98291),
+	pointer_default(unique)
+]
+interface IThumbnail : IUnknown
+{
+};
+
+//Sample interface for Windbg
+[
+	object,
+	uuid(ED9C558E-7C59-4749-AEC8-5F54EFF4E2DF),
+	pointer_default(unique)
+]
+interface ISearch : IUnknown
+{
+};
+//Lets declare an interface
+[
+	object,
+	uuid(7DCFCF11-E590-4AC6-8E68-69CC926CEC40),
+	dual,	
+	pointer_default(unique)
+]
+interface IAtlSimpleObject : IDispatch{
+	[propget, id(1), helpstring("Get Hello Message")] HRESULT GetHelloMessage([out, retval] BSTR *pVal);
+	[		  id(2), helpstring("This will crash the application")] HRESULT IWillCrash();
+	[propget, id(3)] HRESULT Add(BSTR* pVal1, [out, retval] ULONG* pVal);
+	[propput, id(3)] HRESULT Add(BSTR* pVal1, [in] ULONG newVal);
+	[id(5), helpstring("This will read a file")] HRESULT ReadFile([in] BSTR* fileName);
+};
+[
+	uuid(73866E8C-AAE4-4A57-8573-9059519A350F),
+	version(1.0),
+]
+library SampleAtlProjectLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(BAD38D47-2FC3-4CB8-9D1C-8286B6F73D2D)
+	]
+	coclass Preview
+	{
+		[default] interface IPreviewHandler;
+	};
+	[
+		uuid(81144C10-9157-4740-A914-A631A48F2F3F)
+	]
+	coclass Thumbnail
+	{
+		[default] interface IThumbnailProvider;
+	};
+	[
+		uuid(0D033DC3-96EE-4145-BBBC-C5EFACE4AA9D)
+	]
+	coclass Search
+	{
+		[default] interface IFilter;
+	};
+	
+	[
+		uuid(2A0B83FC-8CD3-46D2-BDB8-43C3040A4F1F)		
+	]
+	coclass AtlSimpleObject
+	{
+		[default] interface IAtlSimpleObject;		
+	};
+};
+
+import "shobjidl.idl";
+import "thumbcache.idl";
+import "filter.idl";
